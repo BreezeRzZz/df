@@ -11,7 +11,7 @@
 
 
 from keras import backend as K
-from utility import LoadDataNoDefCW
+from utility import LoadCustomDataCW, LoadDataNoDefCW
 from Model_NoDef import DFNet
 import random
 from keras.utils import np_utils
@@ -43,7 +43,7 @@ INPUT_SHAPE = (LENGTH,1)
 
 # Data: shuffled and split between train and test sets
 print ("Loading and preparing data for training, and evaluating the model")
-X_train, y_train, X_valid, y_valid, X_test, y_test = LoadDataNoDefCW()
+X_train, y_train, X_valid, y_valid, X_test, y_test = LoadCustomDataCW()
 # Please refer to the dataset format in readme
 K.set_image_dim_ordering("tf") # tf is tensorflow
 
