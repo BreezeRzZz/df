@@ -12,10 +12,10 @@ random.seed(0)
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
 EXP_Type = 'OpenWorld_WalkieTalkie'
-print "Experimental Type: ", EXP_Type
+print("Experimental Type: ", EXP_Type)
 # network and training
 NB_EPOCH = 30
-print "Number of Epoch: ", NB_EPOCH
+print ("Number of Epoch: ", NB_EPOCH)
 BATCH_SIZE = 128
 VERBOSE = 1
 LENGTH = 5000
@@ -46,7 +46,7 @@ y_valid = np_utils.to_categorical(y_valid, NB_CLASSES)
 
 print ("Preparing Data for training")
 # initialize the optimizer and model
-print time.sleep(2)
+print (time.sleep(2))
 model = DFNet.build(input_shape=INPUT_SHAPE, classes=NB_CLASSES)
 
 model.compile(loss="categorical_crossentropy", optimizer=OPTIMIZER,
@@ -59,8 +59,8 @@ history = model.fit(X_train, y_train,
 		validation_data=(X_valid, y_valid))
 
 # Save model
-print "Saving Model"
+print ("Saving Model")
 savedpath ='../saved_trained_models/%s.h5'%str(EXP_Type)
 model.save(savedpath)
-print "Saving Model Done!", savedpath
+print ("Saving Model Done!", savedpath)
 

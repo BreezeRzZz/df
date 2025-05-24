@@ -28,10 +28,10 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
 description = "Training and evaluating DF model for closed-world scenario on Walkie-Talkie dataset"
 
-print description
+print(description)
 # Training the DF model
 NB_EPOCH = 30   # Number of training epoch
-print "Number of Epoch: ", NB_EPOCH
+print("Number of Epoch: ", NB_EPOCH)
 BATCH_SIZE = 128 # Batch size
 VERBOSE = 2 # Output display mode
 LENGTH = 5000 # Packet sequence length
@@ -91,7 +91,7 @@ print("Testing accuracy:", score_test[1])
 
 # Top N prediction
 top_N = 2 # Specify top_N = n; n is top-n prediction
-print "Start evaluating Top-%s Accuracy"%top_N
+print("Start evaluating Top-%s Accuracy"%top_N)
 result = model.predict(X_test, verbose=2)
 count = 0
 total = 0
@@ -107,4 +107,4 @@ for i in range(len(result)):
         count = count + 1
     total = total + 1
 
-print "Top-%s Accuracy: %f "%(top_N, float(count)/total)
+print("Top-%s Accuracy: %f "%(top_N, float(count)/total))
