@@ -30,10 +30,10 @@ description = "Training and evaluating DF model for closed-world scenario on non
 
 print(description)
 # Training the DF model
-NB_EPOCH = 30   # Number of training epoch
+NB_EPOCH = 10   # Number of training epoch
 print("Number of Epoch: ", NB_EPOCH)
 BATCH_SIZE = 128 # Batch size
-VERBOSE = 2 # Output display mode
+VERBOSE = 1 # Output display mode
 LENGTH = 5000 # Packet sequence length
 OPTIMIZER = Adamax(lr=0.002, beta_1=0.9, beta_2=0.999, epsilon=1e-08, decay=0.0) # Optimizer
 
@@ -43,7 +43,7 @@ INPUT_SHAPE = (LENGTH,1)
 
 # Data: shuffled and split between train and test sets
 print ("Loading and preparing data for training, and evaluating the model")
-X_train, y_train, X_valid, y_valid, X_test, y_test = LoadCustomDataCW()
+X_train, y_train, X_valid, y_valid, X_test, y_test = LoadDataNoDefCW()
 # Please refer to the dataset format in readme
 K.set_image_dim_ordering("tf") # tf is tensorflow
 
@@ -88,4 +88,8 @@ history = model.fit(X_train, y_train,
 score_test = model.evaluate(X_test, y_test, verbose=VERBOSE)
 print("Testing accuracy:", score_test[1])
 
-
+# Save model
+print("Saving Model")
+savedpath ='../saved_trained_models/CW_ts.h5'
+model.save(savedpath)
+print("Saving Model Done!", savedpath)

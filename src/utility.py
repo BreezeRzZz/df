@@ -6,28 +6,28 @@ def LoadDataNoDefCW():
 
     print("Loading non-defended dataset for closed-world scenario")
     # Point to the directory storing data
-    dataset_dir = '../dataset/ClosedWorld/NoDef/'
+    dataset_dir = '../dataset/'
 
     # X represents a sequence of traffic directions
     # y represents a sequence of corresponding label (website's label)
 
     # Load training data
     with open(dataset_dir + 'X_train_NoDef.pkl', 'rb') as handle:
-        X_train = np.array(pickle.load(handle))
+        X_train = np.array(pickle.load(handle, encoding='bytes'))
     with open(dataset_dir + 'y_train_NoDef.pkl', 'rb') as handle:
-        y_train = np.array(pickle.load(handle))
+        y_train = np.array(pickle.load(handle, encoding='bytes'))
 
     # Load validation data
     with open(dataset_dir + 'X_valid_NoDef.pkl', 'rb') as handle:
-        X_valid = np.array(pickle.load(handle))
+        X_valid = np.array(pickle.load(handle, encoding='bytes'))
     with open(dataset_dir + 'y_valid_NoDef.pkl', 'rb') as handle:
-        y_valid = np.array(pickle.load(handle))
+        y_valid = np.array(pickle.load(handle, encoding='bytes'))
 
     # Load testing data
     with open(dataset_dir + 'X_test_NoDef.pkl', 'rb') as handle:
-        X_test = np.array(pickle.load(handle))
+        X_test = np.array(pickle.load(handle, encoding='bytes'))
     with open(dataset_dir + 'y_test_NoDef.pkl', 'rb') as handle:
-        y_test = np.array(pickle.load(handle))
+        y_test = np.array(pickle.load(handle, encoding='bytes'))
 
     print("Data dimensions:")
     print("X: Training data's shape : {}".format(X_train.shape))
@@ -296,6 +296,104 @@ def LoadCustomDataCW():
     dataset_dir = '../dataset/'
 
     # 加载监控网站数据
+    # with open(dataset_dir + 'ts_mon.pkl', 'rb') as handle:
+    #     mon_data = pickle.load(handle)
+    with open(dataset_dir + 'X_train_NoDef.pkl', 'rb') as handle:
+        X_train = pickle.load(handle)
+    with open(dataset_dir + 'y_train_NoDef.pkl', 'rb') as handle:
+        y_train = pickle.load(handle)
+    with open(dataset_dir + 'X_valid_NoDef.pkl', 'rb') as handle:
+        X_valid = pickle.load(handle)
+    with open(dataset_dir + 'y_valid_NoDef.pkl', 'rb') as handle:
+        y_valid = pickle.load(handle)
+    with open(dataset_dir + 'X_test_NoDef.pkl', 'rb') as handle:
+        X_test = pickle.load(handle)
+    with open(dataset_dir + 'y_test_NoDef.pkl', 'rb') as handle:
+        y_test = pickle.load(handle)
+    
+    # mon_data是一个字典，包含每个网站的样本
+    # 需要将其转换为X（流量方向序列）和y（对应的网站标签）
+    
+    # 遍历每个网站的样本
+    # 每个网站的样本中，80%用于训练，10%用于验证，10%用于测试
+    # for site_id, samples in mon_data.items():
+    #     len_train = 0
+    #     len_valid = 0
+    #     for sample in samples:
+    #         # 提取方向信息（取符号）
+    #         directions = [np.sign(x) if x != 0 else 1 for x in sample]
+            
+    #         # 确保每个样本长度为5000（DF模型的要求）
+    #         if len(directions) > 5000:
+    #             directions = directions[:5000]
+    #         else:
+    #             # 如果样本长度不足5000，用0填充
+    #             directions = directions + [0] * (5000 - len(directions))
+            
+    #         if len_train < 0.8 * len(mon_data[site_id]):
+    #             len_train += 1
+    #             X_train.append(directions)
+    #             y_train.append(site_id)
+    #         elif len_valid < 0.1 * len(mon_data[site_id]):
+    #             len_valid += 1
+    #             X_valid.append(directions)
+    #             y_valid.append(site_id)
+    #         else:
+    #             X_test.append(directions)
+    #             y_test.append(site_id)
+            
+    
+    # 将数据转换为numpy数组
+    # X_train = np.array(X_train)
+    # y_train = np.array(y_train)
+    # X_valid = np.array(X_valid)
+    # y_valid = np.array(y_valid)
+    # X_test = np.array(X_test)
+    # y_test = np.array(y_test)
+    
+    # 随机打乱数据
+    indices_train = np.random.permutation(len(X_train))
+    X_train = X_train[indices_train]
+    y_train = y_train[indices_train]
+    indices_valid = np.random.permutation(len(X_valid))
+    X_valid = X_valid[indices_valid]
+    y_valid = y_valid[indices_valid]
+    indices_test = np.random.permutation(len(X_test))
+    X_test = X_test[indices_test]
+    y_test = y_test[indices_test]
+    # indices = np.random.permutation(len(X_all))
+    # X_all = X_all[indices]
+    # y_all = y_all[indices]
+    
+    # 划分训练集、验证集和测试集（比例：8:1:1）
+    # train_size = int(len(X_all) * 0.8)
+    # valid_size = int(len(X_all) * 0.1)
+    
+    # X_train = X_all[:train_size]
+    # y_train = y_all[:train_size]
+    
+    # X_valid = X_all[train_size:train_size+valid_size]
+    # y_valid = y_all[train_size:train_size+valid_size]
+    
+    # X_test = X_all[train_size+valid_size:]
+    # y_test = y_all[train_size+valid_size:]
+    
+    print("Data dimensions:")
+    print("X: Training data's shape : {}".format(X_train.shape))
+    print("y: Training data's shape : {}".format(y_train.shape))
+    print("X: Validation data's shape : {}".format(X_valid.shape))
+    print("y: Validation data's shape : {}".format(y_valid.shape))
+    print("X: Testing data's shape : {}".format(X_test.shape))
+    print("y: Testing data's shape : {}".format(y_test.shape))
+    
+    return X_train, y_train, X_valid, y_valid, X_test, y_test
+
+def LoadCustomDataOW():
+    print("Loading custom dataset for open-world scenario")
+    # 指向存储数据的目录
+    dataset_dir = '../dataset/'
+
+    # 加载监控网站数据
     with open(dataset_dir + 'ts_mon.pkl', 'rb') as handle:
         mon_data = pickle.load(handle)
     
@@ -336,18 +434,68 @@ def LoadCustomDataCW():
     X_train = X_all[:train_size]
     y_train = y_all[:train_size]
     
-    X_valid = X_all[train_size:train_size+valid_size]
-    y_valid = y_all[train_size:train_size+valid_size]
+    X_valid = X_all[train_size:]
+    y_valid = y_all[train_size:]
     
-    X_test = X_all[train_size+valid_size:]
-    y_test = y_all[train_size+valid_size:]
     
     print("Data dimensions:")
     print("X: Training data's shape : {}".format(X_train.shape))
     print("y: Training data's shape : {}".format(y_train.shape))
     print("X: Validation data's shape : {}".format(X_valid.shape))
     print("y: Validation data's shape : {}".format(y_valid.shape))
-    print("X: Testing data's shape : {}".format(X_test.shape))
-    print("y: Testing data's shape : {}".format(y_test.shape))
     
-    return X_train, y_train, X_valid, y_valid, X_test, y_test
+    return X_train, y_train, X_valid, y_valid
+
+import torch
+def LoadDataNoDefCW_PyTorch():
+    print("Loading non-defended dataset for closed-world scenario (PyTorch)")
+    # Point to the directory storing data
+    dataset_dir = '../dataset/'
+
+    # Load training data
+    with open(dataset_dir + 'X_train_NoDef.pkl', 'rb') as handle:
+        X_train = np.array(pickle.load(handle, encoding='bytes'))
+    with open(dataset_dir + 'y_train_NoDef.pkl', 'rb') as handle:
+        y_train = np.array(pickle.load(handle, encoding='bytes'))
+
+    # Load validation data
+    with open(dataset_dir + 'X_valid_NoDef.pkl', 'rb') as handle:
+        X_valid = np.array(pickle.load(handle, encoding='bytes'))
+    with open(dataset_dir + 'y_valid_NoDef.pkl', 'rb') as handle:
+        y_valid = np.array(pickle.load(handle, encoding='bytes'))
+
+    # Load testing data
+    with open(dataset_dir + 'X_test_NoDef.pkl', 'rb') as handle:
+        X_test = np.array(pickle.load(handle, encoding='bytes'))
+    with open(dataset_dir + 'y_test_NoDef.pkl', 'rb') as handle:
+        y_test = np.array(pickle.load(handle, encoding='bytes'))
+
+    print("Original data dimensions (NumPy):")
+    print(f"X_train shape: {X_train.shape}, y_train shape: {y_train.shape}")
+    print(f"X_valid shape: {X_valid.shape}, y_valid shape: {y_valid.shape}")
+    print(f"X_test shape: {X_test.shape}, y_test shape: {y_test.shape}")
+
+    # Convert data to PyTorch tensors
+    # Keras input shape for X: (num_samples, length, 1) or (num_samples, length)
+    # PyTorch Conv1D expects: (num_samples, channels, length)
+    # So, if X_train is (num_samples, length), we need to unsqueeze to add channel dim:
+    # X_train_tensor = torch.from_numpy(X_train).float().unsqueeze(1)
+    # If X_train is (num_samples, length, 1) as in the Keras script after np.newaxis:
+    # X_train_tensor = torch.from_numpy(X_train).float().permute(0, 2, 1)
+
+    # Assuming X data from .pkl is (num_samples, length) initially
+    # Add channel dimension and convert to (num_samples, channels, length)
+    X_train_tensor = torch.from_numpy(X_train).float().unsqueeze(1)
+    X_valid_tensor = torch.from_numpy(X_valid).float().unsqueeze(1)
+    X_test_tensor = torch.from_numpy(X_test).float().unsqueeze(1)
+
+    y_train_tensor = torch.from_numpy(y_train).long() # CrossEntropyLoss expects long type for labels
+    y_valid_tensor = torch.from_numpy(y_valid).long()
+    y_test_tensor = torch.from_numpy(y_test).long()
+
+    print("Data dimensions (PyTorch tensors):")
+    print(f"X_train_tensor shape: {X_train_tensor.shape}, y_train_tensor shape: {y_train_tensor.shape}")
+    print(f"X_valid_tensor shape: {X_valid_tensor.shape}, y_valid_tensor shape: {y_valid_tensor.shape}")
+    print(f"X_test_tensor shape: {X_test_tensor.shape}, y_test_tensor shape: {y_test_tensor.shape}")
+
+    return X_train_tensor, y_train_tensor, X_valid_tensor, y_valid_tensor, X_test_tensor, y_test_tensor

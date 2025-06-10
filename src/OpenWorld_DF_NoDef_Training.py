@@ -1,5 +1,5 @@
 from keras import backend as K
-from utility import LoadDataNoDefOW_Training
+from utility import *
 from keras.utils import np_utils
 from keras.optimizers import Adamax
 from Model_NoDef import DFNet
@@ -24,7 +24,7 @@ OPTIMIZER = Adamax(lr=0.002, beta_1=0.9, beta_2=0.999, epsilon=None, decay=0.0)
 NB_CLASSES = 96 # number of outputs: 95 Monitored websites + 1 Unmonitored websites
 INPUT_SHAPE = (LENGTH,1)
 
-X_train, y_train, X_valid, y_valid = LoadDataNoDefOW_Training()
+X_train, y_train, X_valid, y_valid = LoadCustomDataOW()
 K.set_image_dim_ordering("tf") # tf is tensorflow
 # consider them as float and normalize
 X_train = X_train.astype('float32')

@@ -11,7 +11,7 @@
 
 
 from keras import backend as K
-from utility import LoadDataWalkieTalkieCW
+from utility import *
 from Model_WTFPAD import DFNet
 import random
 from keras.utils import np_utils
@@ -33,17 +33,17 @@ print(description)
 NB_EPOCH = 30   # Number of training epoch
 print("Number of Epoch: ", NB_EPOCH)
 BATCH_SIZE = 128 # Batch size
-VERBOSE = 2 # Output display mode
+VERBOSE = 1 # Output display mode
 LENGTH = 5000 # Packet sequence length
 OPTIMIZER = Adamax(lr=0.002, beta_1=0.9, beta_2=0.999, epsilon=1e-08, decay=0.0) # Optimizer
 
-NB_CLASSES = 100 # number of outputs = number of classes
+NB_CLASSES = 95 # number of outputs = number of classes
 INPUT_SHAPE = (LENGTH,1)
 
 
 # Data: shuffled and split between train and test sets
 print ("Loading and preparing data for training, and evaluating the model")
-X_train, y_train, X_valid, y_valid, X_test, y_test = LoadDataWalkieTalkieCW()
+X_train, y_train, X_valid, y_valid, X_test, y_test = LoadCustomDataCW()
 # Please refer to the dataset format in readme
 K.set_image_dim_ordering("tf") # tf is tensorflow
 
